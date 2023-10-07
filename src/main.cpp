@@ -1,3 +1,5 @@
+#include "celesteclone_lib.h"
+
 // ######################################################################
 // ## Platform Globals
 // ######################################################################
@@ -97,6 +99,11 @@ int main()
   while (running)
   {
     platform_update_window();
+
+    SM_TRACE("Test");
+    SM_WARN("Test");
+    SM_ERROR("Test");
+    SM_ASSERT(false, "Assertion Hit!");
   }
 
   return 0;
