@@ -3,7 +3,7 @@
     "configurations": [
       {
         "name": "Launch",
-        "type": "cppvsdbg",
+        "type": "lldb",
         "request": "launch",
         "program": "${workspaceFolder}/celesteclone",
         "args": [],
