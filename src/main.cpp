@@ -25,19 +25,23 @@ static HWND window;
 // ######################################################################
 // ## Platform Implementation
 // ######################################################################
-LRESULT CALLBACK windows_window_callback(HWND window, UINT msg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK windows_window_callback(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
+{
   LRESULT result = 0;
 
-  switch(msg) {
-    case WM_CLOSE: {
-      running = false;
-      break;
-    }
+  switch (msg)
+  {
+  case WM_CLOSE:
+  {
+    running = false;
+    break;
+  }
 
-    default: {
-      // Let windows handle the default input for now
-      result = DefWindowProcA(window, msg, wParam, lParam);
-    }
+  default:
+  {
+    // Let windows handle the default input for now
+    result = DefWindowProcA(window, msg, wParam, lParam);
+  }
   }
 
   return result;
@@ -45,55 +49,55 @@ LRESULT CALLBACK windows_window_callback(HWND window, UINT msg, WPARAM wParam, L
 
 bool platform_create_window(int width, int height, char *title)
 {
-	HINSTANCE instance = GetModuleHandleA(0);
+  HINSTANCE instance = GetModuleHandleA(0);
 
-	WNDCLASSA wc = {};
-	wc.hInstance = instance;
-	wc.hIcon = LoadIcon(instance, IDI_APPLICATION);
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.lpszClassName = title;
-	wc.lpfnWndProc = windows_window_callback;
+  WNDCLASSA wc = {};
+  wc.hInstance = instance;
+  wc.hIcon = LoadIcon(instance, IDI_APPLICATION);
+  wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+  wc.lpszClassName = title;
+  wc.lpfnWndProc = windows_window_callback;
 
-	if (!RegisterClassA(&wc))
-	{
-		return false;
-	}
+  if (!RegisterClassA(&wc))
+  {
+    return false;
+  }
 
-	int dwStyle = WS_OVERLAPPEDWINDOW;
+  int dwStyle = WS_OVERLAPPEDWINDOW;
 
-	window = CreateWindowExA(0, title, title, dwStyle, 100, 100, width, height, NULL, NULL, instance, NULL);
+  window = CreateWindowExA(0, title, title, dwStyle, 100, 100, width, height, NULL, NULL, instance, NULL);
 
-	if (window == NULL)
-	{
-		return false;
-	}
+  if (window == NULL)
+  {
+    return false;
+  }
 
-	ShowWindow(window, SW_SHOW);
+  ShowWindow(window, SW_SHOW);
 
-	return true;
+  return true;
 }
 
 void platform_update_window()
 {
-	MSG msg;
+  MSG msg;
 
-	while (PeekMessageA(&msg, window, 0, 0, PM_REMOVE))
-	{
-		TranslateMessage(&msg);
-		DispatchMessageA(&msg);
-	}
+  while (PeekMessageA(&msg, window, 0, 0, PM_REMOVE))
+  {
+    TranslateMessage(&msg);
+    DispatchMessageA(&msg);
+  }
 }
 
 #endif
 
 int main()
 {
-	platform_create_window(1200, 720, "Celeste Clone");
+  platform_create_window(1200, 720, "Celeste Clone");
 
-	while (running)
-	{
-		platform_update_window();
-	}
+  while (running)
+  {
+    platform_update_window();
+  }
 
-	return 0;
+  return 0;
 }
